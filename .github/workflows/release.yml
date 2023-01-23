@@ -1,15 +1,12 @@
 name: Create GitHub Release
 
 on:
-  # Run on demand
-  workflow_dispatch:
-
-  # Run on push to main when .bumpversion.cfg version is updated
-  push:
-    branches:
-      - main
-    paths:
-      - .bumpversion.cfg
+  # Run as a reusable workflow
+  workflow_call:
+    secrets:
+      release-token:
+        description: Token with permissions to create GitHub Releases
+        required: true
 
 jobs:
   lint:
@@ -51,4 +48,4 @@ jobs:
           tag_name:  ${{ steps.release.outputs.version }}
           generate_release_notes: true
           target_commitish: ${{ env.GITHUB_REF }}
-          token: ${{ secrets.GH_RELEASES_TOKEN }}
+          token: ${{ secrets.release-token }}
