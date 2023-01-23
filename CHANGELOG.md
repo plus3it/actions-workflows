@@ -1,4 +1,4 @@
-## repo-template
+## actions-workflows
 
 All notable changes to this project will be documented in this file.
 
@@ -8,8 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 **Commit Delta**: N/A
 
-**Released**: 2023.01.10
+**Released**: TBD
 
 **Summary**:
 
-*   Initial release of capability
+*   Initial release
