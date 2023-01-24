@@ -8,14 +8,19 @@ workflows are located in the directory [.github/workflows](.github/workflows).
 * [test](.github/workflows/test.yml)
 * [release](.github/workflows/release.yml)
 
-Any workflow file that is not prefixed with `local-` is intended to be a reusable
+Any workflow file that is not prefixed with `local-` is provided as a reusable
 workflow. The `local-` workflow files are the workflows in use by _this_ project,
-themselves using the provided reusable workflows. The `local-` workflows may also
-be considered examples of how the reusable workflows are expected to be invoked.
+themselves using the reusable workflows. The `local-` workflows are also examples
+of how the reusable workflows are expected to be invoked.
 
-## Provided reusable workflows
+## Reusable workflows
 
 ### `lint`
+
+Inputs:
+
+* `tardigradelint-target`: Controls which tardigrade-ci Makefile target to run.
+  Defaults to `lint`.
 
 An example of calling the reusable `lint` workflow:
 
@@ -36,6 +41,11 @@ jobs:
 
 ### `test`
 
+Inputs:
+
+* `mockstacktest-enable`: Controls whether to run the mockstacktest job. Defaults
+  to `true`.
+
 An example of calling the reusable `test` workflow:
 
 ```
@@ -54,6 +64,14 @@ jobs:
 ```
 
 ### `release`
+
+Inputs:
+
+* `mockstacktest-enable`: Controls whether to run the mockstacktest job. Defaults
+  to `true`.
+
+Secrets:
+  * `release-token`: Required. Token with permissions to create GitHub Releases.
 
 An example of calling the reusable `release` workflow:
 

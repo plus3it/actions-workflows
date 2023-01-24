@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       tardigradelint-target:
-        description: Name of the Tardigrade-CI target to run
+        description: Name of the Tardigrade-CI Makefile target to run
         default: lint
         required: false
         type: string
