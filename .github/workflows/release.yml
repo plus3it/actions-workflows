@@ -1,15 +1,18 @@
 name: Create GitHub Release
 
 on:
-  # Run on demand
-  workflow_dispatch:
-
-  # Run on push to main when .bumpversion.cfg version is updated
-  push:
-    branches:
-      - main
-    paths:
-      - .bumpversion.cfg
+  # Run as a reusable workflow
+  workflow_call:
+    inputs:
+      mockstacktest-enable:
+        description: Controls whether to run the mockstacktest job
+        default: true
+        required: false
+        type: boolean
+    secrets:
+      release-token:
+        description: Token with permissions to create GitHub Releases
+        required: true
 
 jobs:
   lint:
@@ -17,6 +20,8 @@ jobs:
 
   test:
     uses: ./.github/workflows/test.yml
+    with:
+      mockstacktest-enable: ${{ inputs.mockstacktest-enable }}
 
   release:
     needs:
@@ -51,4 +56,4 @@ jobs:
           tag_name:  ${{ steps.release.outputs.version }}
           generate_release_notes: true
           target_commitish: ${{ env.GITHUB_REF }}
-          token: ${{ secrets.GH_RELEASES_TOKEN }}
+          token: ${{ secrets.release-token }}

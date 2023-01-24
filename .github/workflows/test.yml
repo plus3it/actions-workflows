@@ -1,14 +1,16 @@
 name: Run test jobs
 on:
-  pull_request:
   workflow_call:
-
-concurrency:
-  group: test-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+    inputs:
+      mockstacktest-enable:
+        description: Controls whether to run the mockstacktest job
+        default: true
+        required: false
+        type: boolean
 
 jobs:
   mockstacktest:
+    if: inputs.mockstacktest-enable
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository
