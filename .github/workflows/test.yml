@@ -1,9 +1,16 @@
 name: Run test jobs
 on:
   workflow_call:
+    inputs:
+      mockstacktest-enable:
+        description: Controls whether to run the mockstacktest job
+        default: true
+        required: false
+        type: boolean
 
 jobs:
   mockstacktest:
+    if: inputs.mockstacktest-enable
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository

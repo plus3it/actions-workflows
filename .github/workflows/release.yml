@@ -3,6 +3,12 @@ name: Create GitHub Release
 on:
   # Run as a reusable workflow
   workflow_call:
+    inputs:
+      mockstacktest-enable:
+        description: Controls whether to run the mockstacktest job
+        default: true
+        required: false
+        type: boolean
     secrets:
       release-token:
         description: Token with permissions to create GitHub Releases
@@ -14,6 +20,8 @@ jobs:
 
   test:
     uses: ./.github/workflows/test.yml
+    with:
+      mockstacktest-enable: ${{ inputs.mockstacktest-enable }}
 
   release:
     needs:
