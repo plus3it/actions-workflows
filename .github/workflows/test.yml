@@ -7,6 +7,11 @@ on:
         default: true
         required: false
         type: boolean
+      mockstacktest-pytest-args:
+        description: Passes PYTEST_ARGS to mockstacktest
+        default: -v
+        required: false
+        type: string
 
 jobs:
   mockstacktest:
@@ -23,7 +28,7 @@ jobs:
         run: make mockstack/up
 
       - name: Apply Terraform test configs in mock AWS stack
-        run: make mockstack/pytest
+        run: make mockstack/pytest PYTEST_ARGS="${{ inputs.mockstacktest-pytest-args }}"
 
       - name: Cleanup the mock AWS stack
         run: make mockstack/clean

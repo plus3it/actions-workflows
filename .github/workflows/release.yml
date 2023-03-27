@@ -9,6 +9,11 @@ on:
         default: true
         required: false
         type: boolean
+      mockstacktest-pytest-args:
+        description: Passes PYTEST_ARGS to mockstacktest
+        default: -v
+        required: false
+        type: string
     secrets:
       release-token:
         description: Token with permissions to create GitHub Releases
@@ -22,6 +27,7 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       mockstacktest-enable: ${{ inputs.mockstacktest-enable }}
+      mockstacktest-pytest-args: ${{ inputs.mockstacktest-pytest-args }}
 
   release:
     needs:
