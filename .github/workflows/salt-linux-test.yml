@@ -23,7 +23,6 @@ defaults:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: test-el${{ inputs.salt-os-version }}-${{inputs.salt-state}}
     container:
       image: >-
         ${{ fromJson('{
