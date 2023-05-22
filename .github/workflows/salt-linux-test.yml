@@ -15,6 +15,10 @@ on:
         description: Relative paths to the salt pillar to test
         required: true
         type: string
+      salt-repo-url:
+        description: URL to the salt repo file, `salt-os-version` is templated as `{0}`
+        default: "https://repo.saltproject.io/salt/py3/redhat/{0}/x86_64/3006.repo"
+        type: string
 
 defaults:
   run:
@@ -34,7 +38,7 @@ jobs:
         - ${{ github.workspace }}:${{ github.workspace }}
       options: --privileged
     env:
-      SALT_REPO_URL: https://repo.saltproject.io/py3/redhat/${{ inputs.salt-os-version }}/x86_64/3004.repo
+      SALT_REPO_URL: ${{ format(inputs.salt-repo-url, inputs.salt-os-version) }}
     steps:
       - name: Clone this git repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
