@@ -58,7 +58,7 @@ jobs:
 
       - run: >-
           salt-call --local --retcode-passthrough
-          --file-root=. --pillar-root=${{ inputs.salt-pillar-root }}
+          --file-root=${{ github.workspace }} --pillar-root=${{ inputs.salt-pillar-root }}
           saltutil.sync_all
 
       # Run tests
