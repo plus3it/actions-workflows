@@ -17,7 +17,11 @@ on:
         type: string
       salt-repo-url:
         description: URL to the salt repo file, `salt-os-version` is templated as `{0}`
-        default: "https://repo.saltproject.io/salt/py3/redhat/{0}/x86_64/3006.repo"
+        default: https://repo.saltproject.io/salt/py3/redhat/{0}/x86_64/3006.repo
+        type: string
+      salt-requirements-files:
+        description: Space-separated list of paths to requirements files installed by yum, `salt-os-version` is templated as `{0}`
+        default: ./tests/requirements.txt ./tests/requirements-el{0}.txt
         type: string
 
 defaults:
@@ -47,7 +51,7 @@ jobs:
       - run: touch /etc/fstab
       - run: curl -sSL -o /etc/yum.repos.d/salt.repo ${{ env.SALT_REPO_URL }}
       - run: >-
-          mapfile -t REQUIREMENTS < <(cat ./tests/requirements.txt ./tests/requirements-el${{ inputs.salt-os-version }}.txt) &&
+          mapfile -t REQUIREMENTS < <(cat ${{ format(inputs.salt-requirements-files, inputs.salt-os-version) }}) &&
           yum install -y "${REQUIREMENTS[@]}"
 
       - run: salt-call --versions-report
