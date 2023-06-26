@@ -1,0 +1,67 @@
+name: Run salt formula tests on Windows
+
+on:
+  workflow_call:
+    inputs:
+      salt-os-version:
+        description: Github Windows runner to run the tests on, see <https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources>
+        required: true
+        type: string
+      salt-state:
+        description: Salt state to execute
+        required: true
+        type: string
+      salt-pillar-root:
+        description: Relative paths to the salt pillar to test
+        default: ''
+        type: string
+      salt-installer-url:
+        description: URL to the salt installer
+        default: https://repo.saltproject.io/salt/py3/windows/minor/3006.1/Salt-Minion-3006.1-Py3-AMD64-Setup.exe
+        type: string
+
+jobs:
+  test:
+    runs-on: ${{ inputs.salt-os-version}}
+    steps:
+      - name: Clone this git repository
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+
+      # Install salt
+      - run: >
+          (new-object net.webclient).DownloadFile(
+          "${{ inputs.salt-installer-url }}",
+          "${env:temp}\salt-minion-installer.exe" )
+        shell: pwsh
+      - run: >
+          Start-Process -FilePath "${env:temp}\salt-minion-installer.exe"
+          -ArgumentList @("/S", "/install-dir=c:\salt")
+          -NoNewWindow -PassThru -Wait
+        shell: pwsh
+      - run: C:\salt\salt-call.exe --versions-report
+        shell: pwsh
+
+      # Sync custom salt modules, if any
+      - run: >
+          C:\salt\salt-call.exe --local --retcode-passthrough
+          --log-file-level debug
+          --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
+          saltutil.sync_all
+        shell: pwsh
+
+      # Run tests
+      - run: >
+          C:\salt\salt-call.exe --local --retcode-passthrough
+          --log-file-level debug
+          --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
+          state.show_sls
+          "${{ inputs.salt-state }}"
+        shell: pwsh
+      - run: >
+          C:\salt\salt-call.exe --local --retcode-passthrough
+          --log-file-level debug
+          --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
+          state.sls
+          "${{ inputs.salt-state }}"
+          mock=True
+        shell: pwsh
