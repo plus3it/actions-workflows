@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.3.1](https://github.com/plus3it/actions-workflows/releases/tag/1.3.1)
+
+**Released**: 2023.07.17
+
+**Summary**:
+
+*   Uses bash on Windows runners to validate steps using shellcheck
+
 ### [1.3.0](https://github.com/plus3it/actions-workflows/releases/tag/1.3.0)
 
 **Released**: 2023.06.26
