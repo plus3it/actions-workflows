@@ -20,6 +20,10 @@ on:
         default: https://repo.saltproject.io/salt/py3/windows/minor/3006.1/Salt-Minion-3006.1-Py3-AMD64-Setup.exe
         type: string
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   test:
     runs-on: ${{ inputs.salt-os-version}}
@@ -29,39 +33,32 @@ jobs:
 
       # Install salt
       - run: >
-          (new-object net.webclient).DownloadFile(
-          "${{ inputs.salt-installer-url }}",
-          "${env:temp}\salt-minion-installer.exe" )
-        shell: pwsh
+          curl -sSL -o "${TEMP}/salt-minion-installer.exe" "${{ inputs.salt-installer-url }}"
       - run: >
           Start-Process -FilePath "${env:temp}\salt-minion-installer.exe"
           -ArgumentList @("/S", "/install-dir=c:\salt")
           -NoNewWindow -PassThru -Wait
         shell: pwsh
-      - run: C:\salt\salt-call.exe --versions-report
-        shell: pwsh
+      - run: C:\\salt\\salt-call.exe --versions-report
 
       # Sync custom salt modules, if any
       - run: >
-          C:\salt\salt-call.exe --local --retcode-passthrough
+          C:\\salt\\salt-call.exe --local --retcode-passthrough
           --log-file-level debug
           --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
           saltutil.sync_all
-        shell: pwsh
 
       # Run tests
       - run: >
-          C:\salt\salt-call.exe --local --retcode-passthrough
+          C:\\salt\\salt-call.exe --local --retcode-passthrough
           --log-file-level debug
           --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
           state.show_sls
           "${{ inputs.salt-state }}"
-        shell: pwsh
       - run: >
-          C:\salt\salt-call.exe --local --retcode-passthrough
+          C:\\salt\\salt-call.exe --local --retcode-passthrough
           --log-file-level debug
           --file-root="${{ github.workspace }}" --pillar-root=${{ inputs.salt-pillar-root }}
           state.sls
           "${{ inputs.salt-state }}"
           mock=True
-        shell: pwsh
