@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.4.0](https://github.com/plus3it/actions-workflows/releases/tag/1.4.0)
+
+**Released**: 2023.11.06
+
+**Summary**:
+
+*   Updates Windows Salt test to support retrieving the latest salt release for
+    a given salt major version. (The Linux Salt test already works this way.)
+
+### [1.3.2](https://github.com/plus3it/actions-workflows/releases/tag/1.3.2)
+
+**Released**: 2023.08.14
+
+**Summary**:
+
+*   Remove install of docker-compose, it is no longer present in tardigrade-ci
+
 ### [1.3.1](https://github.com/plus3it/actions-workflows/releases/tag/1.3.1)
 
 **Released**: 2023.07.17
