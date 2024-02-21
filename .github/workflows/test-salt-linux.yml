@@ -50,7 +50,6 @@ jobs:
       # Install salt
       - run: touch /etc/fstab
       - run: curl -sSL -o /etc/yum.repos.d/salt.repo ${{ env.SALT_REPO_URL }}
-      - run: sudo docker exec centos-${OS_VERSION} systemctl start firewalld
       - run: >-
           mapfile -t REQUIREMENTS < <(cat ${{ format(inputs.salt-requirements-files, inputs.salt-os-version) }}) &&
           yum install -y "${REQUIREMENTS[@]}"
