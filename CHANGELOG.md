@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.4.1](https://github.com/plus3it/actions-workflows/releases/tag/1.4.1)
+
+**Released**: 2024.02.21
+
+**Summary**:
+
+*   Updates Github Actions workflow to use previous version of action/checkout
+    to v3 instead of v4 to support EL7 containers. Also updates dependabot config
+    to ignore future action/checkout releases.
+
 ### [1.4.0](https://github.com/plus3it/actions-workflows/releases/tag/1.4.0)
 
 **Released**: 2023.11.06
