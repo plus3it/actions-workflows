@@ -23,6 +23,10 @@ on:
         description: Space-separated list of paths to requirements files installed by yum, `salt-os-version` is templated as `{0}`
         default: ./tests/requirements.txt ./tests/requirements-el{0}.txt
         type: string
+      salt-python-requirements-files:
+        description: Space-separated list of paths to python requirements files installed by salt-pip, `salt-os-version` is templated as `{0}`
+        default: ''
+        type: string
 
 defaults:
   run:
@@ -55,6 +59,14 @@ jobs:
           yum install -y "${REQUIREMENTS[@]}"
 
       - run: salt-call --versions-report
+
+      # Install salt python requirements
+      - if: inputs.salt-python-requirements-files
+        run: >
+          mapfile -t PYTHON_REQUIREMENTS < <(echo ${{ format(inputs.salt-python-requirements-files, inputs.salt-os-version) }}) &&
+          for FILE in "${PYTHON_REQUIREMENTS[@]}"; do
+          salt-pip install -r "$FILE";
+          done
 
       - run: >-
           salt-call --local --retcode-passthrough

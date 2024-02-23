@@ -27,6 +27,10 @@ on:
         description: Base url to search for the salt version; `salt-version` is appended to this url
         default: https://repo.saltproject.io/salt/py3/windows
         type: string
+      salt-python-requirements-files:
+        description: Space-separated list of paths to python requirements files installed by salt-pip, `salt-os-version` is templated as `{0}`
+        default: ''
+        type: string
 
 defaults:
   run:
@@ -56,6 +60,14 @@ jobs:
           -NoNewWindow -PassThru -Wait
         shell: pwsh
       - run: C:\\salt\\salt-call.exe --versions-report
+
+      # Install salt python requirements
+      - if: inputs.salt-python-requirements-files
+        run: >
+          mapfile -t PYTHON_REQUIREMENTS < <(echo ${{ format(inputs.salt-python-requirements-files, inputs.salt-os-version) }}) &&
+          for FILE in "${PYTHON_REQUIREMENTS[@]}"; do
+          C:\\salt\\salt-pip.exe install -r "$FILE";
+          done
 
       # Sync custom salt modules, if any
       - run: >
