@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.6.0](https://github.com/plus3it/actions-workflows/releases/tag/1.6.0)
+
+**Released**: 2024.06.04
+
+**Summary**:
+
+*   Updates salt workflow for EL8 to use the Alma Linux 8 container. CentOS
+    Stream 8 was discontinued as of June 1, 2024. Along with this
+    discontinuation, the CentOS maintainers removed the CentOS Stream 8 yum
+    repositories. Lack of repository-access breaks the ability to adequately
+    customize the CI container, causing job failures. Explored image-options
+    from Red Hat and both the Rocky and Alma projects. Found that the Red Hat
+    images' repositories lacked critical RPMs. Found that the Official
+    containers from Alma Linux seem to be getting updated with greater
+    frequency than those from Rocky, so opted to switch to Alma.
+*   Adds initial hooks for a salt workflow for EL9. Chose containers from the
+    Alma project as a hedge against premature-discontinuation of the CentOS
+    repos and because the Red Hat 9 container-images similarly lack critical
+    RPMs.
+
 ### [1.5.0](https://github.com/plus3it/actions-workflows/releases/tag/1.5.0)
 
 **Released**: 2024.02.22

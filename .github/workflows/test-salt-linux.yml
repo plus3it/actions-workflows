@@ -39,7 +39,8 @@ jobs:
       image: >-
         ${{ fromJson('{
           7: "quay.io/centos/centos:centos7",
-          8: "quay.io/centos/centos:stream8"
+          8: "docker.io/library/almalinux:8",
+          9: "docker.io/library/almalinux:9"
         }')[inputs.salt-os-version] }}
       volumes:
         - /sys/fs/cgroup:/sys/fs/cgroup
