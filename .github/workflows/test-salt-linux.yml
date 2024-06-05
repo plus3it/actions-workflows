@@ -39,8 +39,8 @@ jobs:
       image: >-
         ${{ fromJson('{
           7: "quay.io/centos/centos:centos7",
-          8: "hub.docker.com/redhat:ubi8",
-          9: "hub.docker.com/redhat:ubi9"
+          8: "registry.access.redhat.com/ubi8/ubi:latest",
+          9: "registry.access.redhat.com/ubi9/ubi:latest"
         }')[inputs.salt-os-version] }}
       volumes:
         - /sys/fs/cgroup:/sys/fs/cgroup
