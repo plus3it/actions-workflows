@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.6.1](https://github.com/plus3it/actions-workflows/releases/tag/1.6.1)
+
+**Released**: 2024.07.02
+
+*   Quotes inputs for lint action to support multiple targets
+
 ### [1.6.0](https://github.com/plus3it/actions-workflows/releases/tag/1.6.0)
 
 **Released**: 2024.06.04
