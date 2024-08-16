@@ -44,7 +44,7 @@ jobs:
       SALT_REPO_URL: https://repo.saltproject.io/salt/py3/windows/${{ inputs.salt-version }}
     steps:
       - name: Clone this git repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       # Install salt
       - if: inputs.salt-installer-url != ''

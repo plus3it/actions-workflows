@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.6.2](https://github.com/plus3it/actions-workflows/releases/tag/1.6.2)
+
+**Released**: 2024.08.16
+
+*   Updates actions/checkout steps to use current v4 release, since EL7 containers
+    no longer need to be supported.
+
 ### [1.6.1](https://github.com/plus3it/actions-workflows/releases/tag/1.6.1)
 
 **Released**: 2024.07.02
