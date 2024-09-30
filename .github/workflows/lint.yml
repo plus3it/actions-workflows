@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Project Syntax Verification
         run: make docker/run target="${{ inputs.tardigradelint-target }}"
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Check workflow files
         uses: reviewdog/action-actionlint@15a7a477ab5ab768a41c39b2c53970bf151c73f3
