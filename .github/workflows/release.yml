@@ -14,6 +14,11 @@ on:
         default: -v
         required: false
         type: string
+      tardigradelint-target:
+        description: Name of the Tardigrade-CI Makefile target to run
+        default: lint
+        required: false
+        type: string
     secrets:
       release-token:
         description: Token with permissions to create GitHub Releases
@@ -22,6 +27,8 @@ on:
 jobs:
   lint:
     uses: ./.github/workflows/lint.yml
+    with:
+      tardigradelint-target: ${{ inputs.tardigradelint-target }}
 
   test:
     uses: ./.github/workflows/test.yml
