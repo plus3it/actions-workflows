@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.6.4](https://github.com/plus3it/actions-workflows/releases/tag/1.6.4)
+
+**Released**: 2025.05.05
+
+*   Updates salt test workflows for new saltstack repos
+
 ### [1.6.3](https://github.com/plus3it/actions-workflows/releases/tag/1.6.3)
 
 **Released**: 2025.01.24
