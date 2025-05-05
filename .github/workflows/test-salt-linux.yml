@@ -15,9 +15,13 @@ on:
         description: Relative paths to the salt pillar to test
         required: true
         type: string
+      salt-repo-version:
+        description: Version of the salt repo file to install, used to template `salt-repo-url`
+        default: v1.3.4
+        type: string
       salt-repo-url:
-        description: URL to the salt repo file, `salt-os-version` is templated as `{0}`
-        default: https://repo.saltproject.io/salt/py3/redhat/{0}/x86_64/3006.repo
+        description: URL to the salt repo file, `salt-repo-version` is templated as `{0}`
+        default: https://github.com/saltstack/salt-install-guide/releases/download/{0}/salt.repo
         type: string
       salt-requirements-files:
         description: Space-separated list of paths to requirements files installed by yum, `salt-os-version` is templated as `{0}`
@@ -38,7 +42,6 @@ jobs:
     container:
       image: >-
         ${{ fromJson('{
-          7: "quay.io/centos/centos:centos7",
           8: "docker.io/library/almalinux:8",
           9: "docker.io/library/almalinux:9"
         }')[inputs.salt-os-version] }}
@@ -47,7 +50,7 @@ jobs:
         - ${{ github.workspace }}:${{ github.workspace }}
       options: --privileged
     env:
-      SALT_REPO_URL: ${{ format(inputs.salt-repo-url, inputs.salt-os-version) }}
+      SALT_REPO_URL: ${{ format(inputs.salt-repo-url, inputs.salt-repo-version) }}
     steps:
       - name: Clone this git repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683

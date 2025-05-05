@@ -16,16 +16,12 @@ on:
         default: ''
         type: string
       salt-installer-url:
-        description: URL to the salt installer
-        default: ''
+        description: URL to the salt installer, `salt-version` is templated as `{0}`
+        default: 'https://packages.broadcom.com/artifactory/saltproject-generic/windows/{0}/Salt-Minion-{0}-Py3-AMD64-Setup.exe'
         type: string
       salt-version:
         description: Version of salt to install
-        default: '3006'
-        type: string
-      salt-repo-base-url:
-        description: Base url to search for the salt version; `salt-version` is appended to this url
-        default: https://repo.saltproject.io/salt/py3/windows
+        default: '3006.10'
         type: string
       salt-python-requirements-files:
         description: Space-separated list of paths to python requirements files installed by salt-pip, `salt-os-version` is templated as `{0}`
@@ -41,19 +37,14 @@ jobs:
     runs-on: ${{ inputs.salt-os-version}}
     env:
       LC_ALL: en_US.utf8
-      SALT_REPO_URL: https://repo.saltproject.io/salt/py3/windows/${{ inputs.salt-version }}
+      SALT_REPO_URL: ${{ format(inputs.salt-installer-url, inputs.salt-version) }}
     steps:
       - name: Clone this git repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       # Install salt
-      - if: inputs.salt-installer-url != ''
-        run: >
-          curl -sSL -o "${TEMP}/salt-minion-installer.exe" "${{ inputs.salt-installer-url }}"
-      - if: inputs.salt-installer-url == ''
-        run: |
-          SALT_INSTALLER="${SALT_REPO_URL}/$(curl -s "${SALT_REPO_URL}/" | grep -Po '(?<=href=")[^"]*Py3-AMD64-Setup\.exe(?=")')"
-          curl -sSL -o "${TEMP}/salt-minion-installer.exe" "$SALT_INSTALLER"
+      - run: >
+          curl -sSL -o "${TEMP}/salt-minion-installer.exe" "${{ env.SALT_REPO_URL }}"
       - run: >
           Start-Process -FilePath "${env:temp}\salt-minion-installer.exe"
           -ArgumentList @("/S", "/install-dir=c:\salt")
