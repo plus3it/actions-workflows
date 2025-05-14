@@ -2,6 +2,11 @@ name: Run lint and static analyis checks
 on:
   workflow_call:
     inputs:
+      tardigradelint-enable:
+        description: Controls whether to run the tardigradelint job
+        default: true
+        required: false
+        type: boolean
       tardigradelint-target:
         description: Name of the Tardigrade-CI Makefile target to run
         default: lint
@@ -10,6 +15,7 @@ on:
 
 jobs:
   tardigradelint:
+    if: inputs.tardigradelint-enable
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository
