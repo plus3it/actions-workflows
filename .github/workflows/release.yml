@@ -14,6 +14,11 @@ on:
         default: -v
         required: false
         type: string
+      tardigradelint-enable:
+        description: Controls whether to run the tardigradelint job
+        default: true
+        required: false
+        type: boolean
       tardigradelint-target:
         description: Name of the Tardigrade-CI Makefile target to run
         default: lint
@@ -28,6 +33,7 @@ jobs:
   lint:
     uses: ./.github/workflows/lint.yml
     with:
+      tardigradelint-enable: ${{ inputs.tardigradelint-enable }}
       tardigradelint-target: ${{ inputs.tardigradelint-target }}
 
   test:
@@ -40,12 +46,12 @@ jobs:
     needs:
       - lint
       - test
-    # The test workflow is optional, and may be "skipped". The release should be
-    # created as long as the test does not fail. See also:
+    # The test and lint workflows are optional, and may be "skipped". The release should be
+    # created as long as the jobs do not fail. See also:
     #   <https://samanpavel.medium.com/github-actions-conditional-job-execution-e6aa363d2867>
     if: |
       always() &&
-      needs.lint.result == 'success' &&
+      (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&
       (needs.test.result == 'success' || needs.test.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
