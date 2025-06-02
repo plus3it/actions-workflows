@@ -14,9 +14,9 @@ runs:
     - name: Checkout
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
+        clean: false
         fetch-depth: 0
-    - run: git fetch --tags --force origin  # WA: https://github.com/actions/checkout/issues/882
-      shell: bash
+        fetch-tags: true
 
     - name: Test release condition
       id: release
