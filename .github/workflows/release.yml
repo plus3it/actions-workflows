@@ -28,6 +28,10 @@ on:
       release-token:
         description: Token with permissions to create GitHub Releases
         required: true
+    outputs:
+      release-condition:
+        description: Whether the release was created or not
+        value: ${{ jobs.release.outputs.release-condition }}
 
 jobs:
   lint:
@@ -53,10 +57,12 @@ jobs:
       always() &&
       (needs.lint.result == 'success' || needs.lint.result == 'skipped') &&
       (needs.test.result == 'success' || needs.test.result == 'skipped')
+    outputs:
+      release-condition: ${{ steps.release.outputs.release-condition }}
     runs-on: ubuntu-latest
     steps:
       - name: Release
+        id: release
         uses: ./.github/actions/release
         with:
           release-token: ${{ secrets.release-token }}
-      - run: git fetch --tags --force origin  # WA: https://github.com/actions/checkout/issues/882
