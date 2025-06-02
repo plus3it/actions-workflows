@@ -1,0 +1,43 @@
+name: release
+description: Create release
+inputs:
+  release-token:
+    description: Token with permissions to create GitHub Releases
+    required: true
+outputs:
+  release-condition:
+    description: Whether the release was created or not
+    value: ${{ steps.release.outputs.condition }}
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        fetch-depth: 0
+    - run: git fetch --tags --force origin  # WA: https://github.com/actions/checkout/issues/882
+      shell: bash
+
+    - name: Test release condition
+      id: release
+      shell: bash
+      run: |
+        set -eu -o pipefail
+        RELEASE=false
+        PRIOR_VERSION=$(git describe --abbrev=0 --tags || true)
+        RELEASE_VERSION=$(grep -E "current_version\s*=" .bumpversion.cfg | sed 's/^.*= //' )
+        if [[ "$PRIOR_VERSION" != "$RELEASE_VERSION" ]]; then RELEASE=true; fi
+        echo "condition=${RELEASE}"
+        echo "version=${RELEASE_VERSION}"
+        echo "condition=${RELEASE}" >> "$GITHUB_OUTPUT"
+        echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
+
+    - name: Create release
+      if: steps.release.outputs.condition == 'true'
+      uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
+      with:
+        name: ${{ steps.release.outputs.version }}
+        tag_name: ${{ steps.release.outputs.version }}
+        generate_release_notes: true
+        target_commitish: ${{ github.sha }}
+        token: ${{ inputs.release-token }}
