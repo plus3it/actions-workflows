@@ -1,6 +1,10 @@
 name: release
 description: Create release
 inputs:
+  release-files:
+    description: Newline-delimited globs of paths to assets to upload for release
+    required: false
+    default: ""
   release-token:
     description: Token with permissions to create GitHub Releases
     required: true
@@ -36,8 +40,9 @@ runs:
       if: steps.release.outputs.condition == 'true'
       uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       with:
+        files: ${{ inputs.release-files }}
+        generate_release_notes: true
         name: ${{ steps.release.outputs.version }}
         tag_name: ${{ steps.release.outputs.version }}
-        generate_release_notes: true
         target_commitish: ${{ github.sha }}
         token: ${{ inputs.release-token }}
