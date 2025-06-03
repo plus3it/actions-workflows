@@ -8,6 +8,11 @@ workflows are located in the directory [.github/workflows](.github/workflows).
 * [test](.github/workflows/test.yml)
 * [release](.github/workflows/release.yml)
 
+The release logic is also available as a composite action. Only difference is that
+the action does not execute the lint and test workflows.
+
+* [release action](.github/actions/release)
+
 Any workflow file that is not prefixed with `local-` is provided as a reusable
 workflow. The `local-` workflow files are the workflows in use by _this_ project,
 themselves using the reusable workflows. The `local-` workflows are also examples
@@ -94,4 +99,29 @@ jobs:
     uses: plus3it/actions-workflows/.github/workflows/release.yml@v1
     secrets:
       release-token: ${{ secrets.GH_RELEASES_TOKEN }}
+```
+
+An example of using the composite `release` action:
+
+```
+name: Create GitHub Release
+
+on:
+  # Run on demand
+  workflow_dispatch:
+
+  # Run on push to main when .bumpversion.cfg version is updated
+  push:
+    branches:
+      - main
+    paths:
+      - .bumpversion.cfg
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: plus3it/actions-workflows/.github/actions/release@v1
+        with:
+          release-token: ${{ secrets.GH_RELEASES_TOKEN }}
 ```
