@@ -119,7 +119,9 @@ on:
 
 jobs:
   release:
-    uses: plus3it/actions-workflows/.github/actions/release@v1
-    secrets:
-      release-token: ${{ secrets.GH_RELEASES_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: plus3it/actions-workflows/.github/actions/release@v1
+        with:
+          release-token: ${{ secrets.GH_RELEASES_TOKEN }}
 ```
