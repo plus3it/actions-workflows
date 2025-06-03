@@ -61,6 +61,8 @@ jobs:
       release-condition: ${{ steps.release.outputs.release-condition }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Release
         id: release
         uses: ./.github/actions/release
