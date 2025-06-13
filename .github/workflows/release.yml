@@ -63,6 +63,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: plus3it/actions-workflows
+          path: .github/temp/actions-workflows
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/actions/release/action.yml
+      - name: Move release action
+        run: |
+          mkdir -p .github/actions/release
+          mv .github/temp/actions-workflows/.github/actions/release/action.yml .github/actions/release/action.yml
       - name: Release
         id: release
         uses: ./.github/actions/release
