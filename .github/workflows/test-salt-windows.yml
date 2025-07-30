@@ -34,7 +34,7 @@ defaults:
 
 jobs:
   test:
-    runs-on: ${{ inputs.salt-os-version}}
+    runs-on: ${{ inputs.salt-os-version == 'windows-2019' && fromJSON(format('["codebuild-salt-build-{0}-{1}", "image:windows-3.0", "image-size:medium"]', github.run_id, github.run_attempt)) || inputs.salt-os-version }}
     env:
       LC_ALL: en_US.utf8
       SALT_REPO_URL: ${{ format(inputs.salt-installer-url, inputs.salt-version) }}
