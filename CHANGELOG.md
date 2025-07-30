@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.8.3](https://github.com/plus3it/actions-workflows/releases/tag/1.8.3)
+
+**Released**: 2025.07.30
+
+*   Coerces windows-2019 to use codebuild runner due to public runner deprecation
+
 ### [1.8.2](https://github.com/plus3it/actions-workflows/releases/tag/1.8.2)
 
 **Released**: 2025.06.23
