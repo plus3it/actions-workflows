@@ -21,7 +21,7 @@ jobs:
       GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Clone this git repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
       - name: Project Syntax Verification
         run: make docker/run target="${{ inputs.tardigradelint-target }}"
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
       - name: Check workflow files
         uses: reviewdog/action-actionlint@50b75b9513baa71e6a1899a1ebaa9ac9851cf16c
