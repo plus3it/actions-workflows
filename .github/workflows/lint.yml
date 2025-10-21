@@ -2,6 +2,11 @@ name: Run lint and static analyis checks
 on:
   workflow_call:
     inputs:
+      actionlint-enable:
+        description: Controls whether to run the actionlint job
+        default: true
+        required: false
+        type: boolean
       tardigradelint-enable:
         description: Controls whether to run the tardigradelint job
         default: true
@@ -27,6 +32,7 @@ jobs:
         run: make docker/run target="${{ inputs.tardigradelint-target }}"
 
   actionlint:
+    if: inputs.actionlint-enable
     runs-on: ubuntu-latest
     steps:
       - name: Clone this git repository

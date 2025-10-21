@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+### [1.9.0](https://github.com/plus3it/actions-workflows/releases/tag/1.9.0)
+
+**Released**: 2025.10.21
+
+*   Provides option to enable or disable the actionlint job
+
 ### [1.8.3](https://github.com/plus3it/actions-workflows/releases/tag/1.8.3)
 
 **Released**: 2025.07.30
