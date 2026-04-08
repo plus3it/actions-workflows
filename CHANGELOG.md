@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+### [1.9.1](https://github.com/plus3it/actions-workflows/releases/tag/1.9.1)
+
+**Released**: 2026.04.08
+
+*   Dependency Updates
+    *   actions/checkout 6.0.2
+    *   reviewdog/action-actionlint 1.72.0
+    *   tardigrade-ci 0.29.3
+
 ### [1.9.0](https://github.com/plus3it/actions-workflows/releases/tag/1.9.0)
 
 **Released**: 2025.10.21
