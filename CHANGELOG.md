@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 **Released**: 2026.04.08
 
+*   Avoids a double checkout, since actions/checkout 6.0.2 fetches all tags properly
 *   Dependency Updates
     *   actions/checkout 6.0.2
     *   reviewdog/action-actionlint 1.72.0
