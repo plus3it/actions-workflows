@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.9.2](https://github.com/plus3it/actions-workflows/releases/tag/1.9.2)
+
+**Released**: 2026.04.09
+
+*   Dependency Updates
+    *   softprops/action-gh-release 2.6.1
 
 ### [1.9.1](https://github.com/plus3it/actions-workflows/releases/tag/1.9.1)
 
