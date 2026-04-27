@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.10.0](https://github.com/plus3it/actions-workflows/releases/tag/1.10.0)
+
+**Released**: 2026.04.27
+
+*   Improves support for immutable releases by passing through draft and prerelease inputs
+*   Dependency Updates
+    *   softprops/action-gh-release 3.0.0
+
 ### [1.9.2](https://github.com/plus3it/actions-workflows/releases/tag/1.9.2)
 
 **Released**: 2026.04.09

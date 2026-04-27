@@ -50,6 +50,8 @@ Inputs:
 
 * `mockstacktest-enable`: Controls whether to run the mockstacktest job. Defaults
   to `true`.
+* `prerelease`: Marks the GitHub Release as a prerelease. Defaults to `false`.
+* `draft`: Creates the GitHub Release as a draft. Defaults to `false`.
 
 An example of calling the reusable `test` workflow:
 
@@ -102,6 +104,13 @@ jobs:
 ```
 
 An example of using the composite `release` action:
+
+Inputs:
+
+* `release-files`: Optional. Newline-delimited globs of assets to upload.
+* `prerelease`: Optional. Marks the GitHub Release as a prerelease. Defaults to `false`.
+* `draft`: Optional. Creates the GitHub Release as a draft. Defaults to `false`.
+* `release-token`: Required. Token with permissions to create GitHub Releases.
 
 ```
 name: Create GitHub Release

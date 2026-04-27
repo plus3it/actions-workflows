@@ -5,6 +5,14 @@ inputs:
     description: Newline-delimited globs of paths to assets to upload for release
     required: false
     default: ""
+  prerelease:
+    description: Whether to mark the GitHub Release as a prerelease
+    required: false
+    default: "false"
+  draft:
+    description: Whether to create the GitHub Release as a draft
+    required: false
+    default: "false"
   release-token:
     description: Token with permissions to create GitHub Releases
     required: true
@@ -33,9 +41,11 @@ runs:
       if: steps.release.outputs.condition == 'true'
       uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda
       with:
+        draft: ${{ fromJSON(inputs.draft) }}
         files: ${{ inputs.release-files }}
         generate_release_notes: true
         name: ${{ steps.release.outputs.version }}
+        prerelease: ${{ fromJSON(inputs.prerelease) }}
         tag_name: ${{ steps.release.outputs.version }}
         target_commitish: ${{ github.sha }}
         token: ${{ inputs.release-token }}

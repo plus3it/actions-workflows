@@ -24,6 +24,16 @@ on:
         default: lint
         required: false
         type: string
+      prerelease:
+        description: Whether to mark the GitHub Release as a prerelease
+        default: false
+        required: false
+        type: boolean
+      draft:
+        description: Whether to create the GitHub Release as a draft
+        default: false
+        required: false
+        type: boolean
     secrets:
       release-token:
         description: Token with permissions to create GitHub Releases
@@ -81,4 +91,6 @@ jobs:
         id: release
         uses: ./.github/actions/release
         with:
+          draft: ${{ inputs.draft }}
+          prerelease: ${{ inputs.prerelease }}
           release-token: ${{ secrets.release-token }}
