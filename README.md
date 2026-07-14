@@ -6,6 +6,7 @@ workflows are located in the directory [.github/workflows](.github/workflows).
 
 * [lint](.github/workflows/lint.yml)
 * [test](.github/workflows/test.yml)
+* [test-terrafirm-integration](.github/workflows/test-terrafirm-integration.yml)
 * [release](.github/workflows/release.yml)
 
 The release logic is also available as a composite action. Only difference is that
@@ -29,7 +30,7 @@ Inputs:
 
 An example of calling the reusable `lint` workflow:
 
-```
+```yaml
 name: Run lint and static analyis checks
 on:
   pull_request:
@@ -55,7 +56,7 @@ Inputs:
 
 An example of calling the reusable `test` workflow:
 
-```
+```yaml
 name: Run test jobs
 on:
   pull_request:
@@ -70,6 +71,71 @@ jobs:
     uses: plus3it/actions-workflows/.github/workflows/test.yml@v1
 ```
 
+### `test-terrafirm-integration`
+
+Reusable workflow for running terrafirm integration tests in salt formula repositories.
+The caller workflow is responsible for defining trigger conditions (e.g., PR review comment,
+workflow dispatch, schedule) and specifying the test matrix. This workflow handles test
+execution with CodeBuild runners for a single source build.
+
+Inputs:
+
+* `source-build`: **Required.** Source build to test (e.g., al2023, centos9stream, rhel8, rhel9, ol9).
+* `watchmaker-git-url`: Watchmaker Git clone URL. Defaults to `https://github.com/plus3it/watchmaker.git`.
+* `watchmaker-git-ref`: Watchmaker Git ref (branch/tag). Defaults to `main`.
+* `watchmaker-common-args`: Watchmaker arguments passed to terrafirm, shared by linux and windows platforms. Defaults to `"-n -e dev"`.
+* `formula-archive-url`: Optional URL for formula zip archive. If omitted, dynamically generated from event.
+
+An example of calling the reusable `test-terrafirm-integration` workflow:
+
+```yaml
+name: Run terrafirm integration tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      watchmaker-git-url:
+        description: Watchmaker git clone URL
+        required: false
+        default: https://github.com/plus3it/watchmaker.git
+        type: string
+      watchmaker-git-ref:
+        description: Watchmaker git ref
+        required: false
+        default: main
+        type: string
+      formula-archive-url:
+        description: Optional URL to the salt formula zip archive
+        required: false
+        default: ""
+        type: string
+
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    if: contains(github.event.review.body, '/build') || github.event_name == 'workflow_dispatch'
+    strategy:
+      fail-fast: false
+      matrix:
+        source-build:
+          - al2023
+          - centos9stream
+          - rhel8
+          - rhel9
+          - ol9
+    uses: plus3it/actions-workflows/.github/workflows/test-terrafirm-integration.yml@<ref>
+    with:
+      source-build: ${{ matrix.source-build }}
+      watchmaker-git-url: ${{ github.event.inputs.watchmaker-git-url }}
+      watchmaker-git-ref: ${{ github.event.inputs.watchmaker-git-ref }}
+      formula-archive-url: ${{ github.event.inputs.formula-archive-url }}
+```
+
 ### `release`
 
 Inputs:
@@ -82,7 +148,7 @@ Secrets:
 
 An example of calling the reusable `release` workflow:
 
-```
+```yaml
 name: Create GitHub Release
 
 on:
@@ -112,7 +178,7 @@ Inputs:
 * `draft`: Optional. Creates the GitHub Release as a draft. Defaults to `false`.
 * `release-token`: Required. Token with permissions to create GitHub Releases.
 
-```
+```yaml
 name: Create GitHub Release
 
 on:
