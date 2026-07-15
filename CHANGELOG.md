@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.11.0](https://github.com/plus3it/actions-workflows/releases/tag/1.11.0)
+
+**Released**: 2026.07.15
+
+*   Provides a reusable workflow for running terrafirm integration tests with salt formulas
+*   Dependency Updates
+    *   softprops/action-gh-release 3.0.1
+    *   actions/checkout 7.0.0
+    *   tardigrade-ci 0.29.6
+
 ### [1.10.0](https://github.com/plus3it/actions-workflows/releases/tag/1.10.0)
 
 **Released**: 2026.04.27

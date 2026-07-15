@@ -1,0 +1,67 @@
+name: Run terrafirm integration tests for salt formulas
+
+on:
+  workflow_call:
+    inputs:
+      source-build:
+        description: Source build to test (e.g., al2023, centos9stream, rhel8, rhel9, rl9, ol9, win16, win19, win22)
+        required: true
+        type: string
+
+      formula-archive-url:
+        description: Optional URL for formula zip archive; if omitted, dynamically generated from event
+        required: false
+        type: string
+        default: ""
+      terrafirm-git-repo-name:
+        description: Terrafirm repository in owner/repo format
+        required: false
+        type: string
+        default: plus3it/terrafirm
+      terrafirm-git-ref:
+        description: Terrafirm Git ref (branch/tag/commit)
+        required: false
+        type: string
+        default: master
+      watchmaker-common-args:
+        description: Watchmaker arguments passed to terrafirm, shared by linux and windows platforms
+        required: false
+        type: string
+        default: "-n -e dev"
+      watchmaker-git-url:
+        description: Watchmaker git clone URL
+        required: false
+        type: string
+        default: https://github.com/plus3it/watchmaker.git
+      watchmaker-git-ref:
+        description: Watchmaker Git ref used for source installs
+        required: false
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  test-source:
+    runs-on: ${{ fromJSON(format('["codebuild-p3-terrafirm-{0}-{1}", "image-size:small"]', github.run_id, github.run_attempt)) }}
+    env:
+      AWS_DEFAULT_REGION: us-east-1
+      TF_VAR_aws_region: us-east-1
+      TF_VAR_codebuild_id: ${{ github.run_id }}-${{ github.run_attempt }}
+      TF_VAR_common_args: ${{ inputs.watchmaker-common-args }}
+      TF_VAR_user_formulas: >-
+        {"${{ github.event.repository.name }}":"${{ inputs.formula-archive-url || format('https://github.com/{0}/archive/refs/heads/{1}.zip', github.event.pull_request.head.repo.full_name || github.repository, github.event.pull_request.head.ref || github.ref_name) }}"}
+      TF_VAR_git_ref: ${{ inputs.watchmaker-git-ref || 'main' }}
+      TF_VAR_git_repo: ${{ inputs.watchmaker-git-url || 'https://github.com/plus3it/watchmaker.git' }}
+      TF_VAR_source_builds: '["${{ inputs.source-build }}"]'
+      TF_VAR_source_source: git
+      TF_VAR_standalone_builds: '[]'
+    steps:
+      - name: Terrafirm integration tests
+        id: terrafirm
+        uses: plus3it/terrafirm/.github/actions/test@cfbd4fbc74ae901b598184b538a7bdd0e9ac74eb
+        with:
+          destroy-after-test: true
+          terrafirm-repository: ${{ inputs.terrafirm-git-repo-name }}
+          terrafirm-ref: ${{ inputs.terrafirm-git-ref }}
