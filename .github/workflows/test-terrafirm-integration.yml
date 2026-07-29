@@ -51,7 +51,7 @@ jobs:
       TF_VAR_codebuild_id: ${{ github.run_id }}-${{ github.run_attempt }}
       TF_VAR_common_args: ${{ inputs.watchmaker-common-args }}
       TF_VAR_user_formulas: >-
-        {"${{ github.event.repository.name }}":"${{ inputs.formula-archive-url || format('https://github.com/{0}/archive/refs/heads/{1}.zip', github.event.pull_request.head.repo.full_name || github.repository, github.event.pull_request.head.ref || github.ref_name) }}"}
+        {"${{ github.event.repository.name }}": "${{ inputs.formula-archive-url || format('https://github.com/{0}/archive/refs/heads/{1}.zip', github.event.pull_request.head.repo.full_name || github.repository, github.event.pull_request.head.ref || github.ref_name) }}"}
       TF_VAR_git_ref: ${{ inputs.watchmaker-git-ref || 'main' }}
       TF_VAR_git_repo: ${{ inputs.watchmaker-git-url || 'https://github.com/plus3it/watchmaker.git' }}
       TF_VAR_source_builds: '["${{ inputs.source-build }}"]'
