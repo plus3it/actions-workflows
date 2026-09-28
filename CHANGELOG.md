@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [1.11.1](https://github.com/plus3it/actions-workflows/releases/tag/1.11.1)
+
+**Released**: 2026.09.28
+
+*   Dependency Updates
+    *   softprops/action-gh-release 3.0.3
+    *   actions/checkout 7.0.1
+    *   reviewdog/action-actionlint 1.77.0
+
 ### [1.11.0](https://github.com/plus3it/actions-workflows/releases/tag/1.11.0)
 
 **Released**: 2026.07.15
